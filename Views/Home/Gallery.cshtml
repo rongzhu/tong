@@ -1,0 +1,73 @@
+﻿@using tongbro;
+@using tongbro.Models;
+
+@model List<ProductCategory>
+
+@{
+    ViewBag.Title = "Product Gallery";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string current = (string)ViewContext.RouteData.Values["category"];
+    if (!current.HasContent())
+    {
+        current = Model[0].SeoName;
+    }
+    
+    ProductCategory currentCat = Model.First(c => current == c.SeoName);
+    int group = 0;
+}
+
+@helper ShowCategoryImages(ProductCategory cat, int group)
+{
+    foreach (var img in cat.Images)
+    {
+        <div class="gallery-item-box">
+            <a class="group@(group)" href="@img.Path"><img alt="" src="@img.Thumbnail" class="gallery-item" /></a>
+        </div>
+    }
+}
+
+@section scripts
+{
+    <script src="~/scripts/jquery.colorbox.js"></script>
+    <script>
+        $(document).ready(function () {
+            @for(int i = 1; i <= group; i++)
+            {
+                @Html.Raw("$('.group" + i + "').colorbox({ rel: 'group" + i + "' });");
+            }
+        });
+    </script>
+}
+
+<div class="main-box">
+    <div class="product-nav">
+    @foreach (var cat in Model)
+{
+        <div class="product-cat @(current == cat.SeoName ? "active-cat" : "")">
+            <a href="~/gallery/@cat.SeoName">@cat.Name</a>
+        </div>
+    }
+        <div style="clear:both"></div>
+    </div>
+
+    <div style="height:100%">
+        @if (currentCat.Subcategories.Count > 0)
+        {
+            foreach(var subcat in currentCat.Subcategories)
+            {
+                <h4>@subcat.Name</h4>
+                group++;
+                @ShowCategoryImages(subcat, group);
+            }
+        }
+        else
+        {
+            group++;
+            <br /><br />
+            
+            @ShowCategoryImages(currentCat, group);
+        }
+
+        <div style="clear: both"></div>
+    </div>
+</div>

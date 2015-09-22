@@ -1,0 +1,70 @@
+﻿<div class="panel panel-default">
+    <div class="panel-heading">
+        <form name="searchForm" class="form-inline">
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon">Start Date</span>
+                    <input type="date" class="form-control" ng-model="search.startDate" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon">End Date</span>
+                    <input type="date" class="form-control" ng-model="search.endDate" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon">Contains</span>
+                    <input type="text" class="form-control" ng-model="search.textToSearch" />
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="form-group">
+                <label class="checkbox-inline" ng-repeat="(key, val) in expenseCategories">
+                    <input type="checkbox" checklist-model="search.selectedCategories" checklist-value="key"> {{ val }}
+                </label>
+                <button class="btn btn-primary" ng-click="search.doSearch()">Search</button>
+            </div>
+        </form>
+    </div>
+    <div class="panel-body">
+        <div ng-if="search.data">
+            <div class="row">
+                <div class="col-lg-3 col-md-4 col-sm-6" ng-repeat="cat in search.data.Categories">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading text-right">
+                            <div class="big">{{ cat.Amount | currency:'$':0 }}</div>
+                            <div><i class="fa fa-comments fa-1x pull-left"></i> {{ cat.ID | categoryName }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Category</th>
+                        <th>Card</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="exp in search.data.Expenses">
+                        <td>{{ exp.TransactionDate | date: shortDate }}</td>
+                        <td>{{ exp.Description }}</td>
+                        <td>{{ exp.Amount | currency }}</td>
+                        <td>{{ exp.Category | categoryName }}</td>
+                        <td>{{ exp.PaymentMethod }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

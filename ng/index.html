@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html lang="en" ng-app="expApp">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Expenses</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <base href="/ng/index.html" />
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<!--[if lt IE 7]>
+    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper" ng-controller="sideBarController as sideBar">
+        <ul class="sidebar-nav">
+            <li class="sidebar-brand">
+                <a ng-href="monthly">Expenses</a>
+            </li>
+            <li>
+                <a ng-href="entry">Enter Data</a>
+            </li>
+            <li ng-repeat="m in sideBar.months" ng-cloak>
+                <a ng-href="monthly/{{ m.year }}/{{ m.month + 1 }}" ng-class="{ active: state.currentMonth.year == m.year && state.currentMonth.month == m.month }">{{ m.month | monthName }}</a>
+            </li>
+            <li>
+                <a ng-href="search">Search</a>
+            </li>
+            <li>
+                <a href="#" ng-click="logout()">Logout</a>
+            </li>
+        </ul>
+    </div>
+    <!-- /#sidebar-wrapper -->
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <h1><a href="#menu-toggle" id="menu-toggle">How Expensive</a></h1>
+            <br />
+
+            <div ng-view></div>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+</div>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-route.js"></script>
+    <script src="checklist-model.js"></script>
+
+    <script src="app.js"></script>
+    <script src="views/entry-view.js"></script>
+    <script src="views/edit-view.js"></script>
+    <script src="views/monthly-view.js"></script>
+    <script src="views/search-view.js"></script>
+</body>
+</html>

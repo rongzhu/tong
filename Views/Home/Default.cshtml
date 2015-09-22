@@ -1,0 +1,65 @@
+﻿@model string[]
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts {
+    <script src="~/Scripts/image_slide.js"></script>
+    <script>
+        $(document).ready(function () {
+            slideShow(5500);
+        });
+    </script>
+}
+
+<div class="slideshow">
+    <ul class="slideshow">
+        @foreach(string p in Model)
+        {
+            <li>
+                <img src="@p" alt="1" />
+            </li>
+        }
+    </ul>
+</div>
+
+<div class="text_block">
+    <h3>What We Make</h3>
+    <p>
+        We specialize in the manufacture of a variety of antique-style ceramic ware. Our handcrafted products artfully imitate the classic Chinese antiques from Neolithic
+        to dynastic periods, great for indoor/outdoor decoration at competitive prices.
+    </p>
+    @*	<div class="more">
+            <a href="#">Read more</a>
+        </div>*@
+</div>
+<div class="text_block text_spacing">
+    <h3>Our Products</h3>
+    <p>
+        Our product line includes pottery, glazed ceramics and Tang three-colored (<i>Sancai</i>) ceramics. They range from vessels, vases, plates, animals to figurines.
+        We also custom manufacture to client's specifications.
+    </p>
+</div>
+<div class="text_block text_spacing">
+    <h3>Our Clients</h3>
+    <p>
+        We are expanding our international business. Our US clients include several retailers and renowned design firms. Our products can be seen in the collections of designer brands.
+    </p>
+</div>
+<div style="clear:both"></div>
+
+<div id="content">
+    <div class="content_item">
+        <h1>Welcome To Tong Brothers</h1>
+        <p>
+			Tong Brothers is a well-established ceramic manufacturer located in Henan province, China. Henan is where the ancient Chinese culture began
+			to flourish, and is also where the world famous Tri-Color ceramics were discovered. Several renowned ceramics manufacturers are established here.
+			Our specialty is making a variety of antique style ceramics that are great for home and garden decorations, such as vases, planters, bowls,
+			figurines, garden stools. We also do made-to-order products based on client's design and specifications. Our products are exported overseas,
+			especially to the United States, and can be seen from retail stores to high end furniture showrooms. We are devoted to providing clients with
+			high quality products at competitive prices, in short lead time. Contact us today and we will address anything on your mind from design discussion
+			to receiving an order.<br />
+            <br />
+		</p>
+    </div>
+</div>

@@ -1,0 +1,56 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en" ng-app="expApp">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Expenses</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <base href="/ng/index.html" />
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <!--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">-->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+    <div class="container">
+        <h2>How Expensive</h2>
+    @using (Html.BeginForm())
+    {
+        <div class="row">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-addon">Guess my password</span>
+                    <input type="password" name="password" class="form-control" />
+                    <span class="input-group-btn">
+                        <button type="submit" name="login_button" class="btn btn-primary" value="login">Login</button>
+                    </span>
+                </div>
+                <p class="help-block"><span class="text-danger">@ViewBag.Message</span></p>
+            </div>
+        </div>
+    }
+    </div>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-route.js"></script>
+    <script src="checklist-model.js"></script>
+
+    <script src="app.js"></script>
+    <script src="views/entry-view.js"></script>
+    <script src="views/edit-view.js"></script>
+    <script src="views/monthly-view.js"></script>
+    <script src="views/search-view.js"></script>
+</body>
+</html>

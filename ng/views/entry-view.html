@@ -1,0 +1,11 @@
+﻿<div class="row">
+    <textarea id="expense-textarea" placeholder="Copy-paste expenses here..." class="form-control" rows="10"
+              ng-model="dataEntry.expensesRaw" ng-paste="dataEntry.onPaste()"></textarea>
+</div>
+<br />
+
+<div class="row" ng-if="dataEntry.lastChargesDates">
+    <ul class="list-group col-lg-4 col-sm-6">
+        <li class="list-group-item" ng-repeat="item in dataEntry.lastChargesDates">{{ item.Method }} <span class="badge">{{ item.Date | date: shortDate }}</span></li>
+    </ul>
+</div>
