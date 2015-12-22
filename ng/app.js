@@ -12,7 +12,8 @@ angular.module('expApp', [
   'monthly-view',
   'search-view',
   'ngRoute',
-  'checklist-model'
+  'checklist-model',
+  'ngAnimate'
 ])
 .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
     var now = new Date();
@@ -46,9 +47,35 @@ angular.module('expApp', [
     };
 })
 .filter('categoryName', ['$rootScope', function ($rootScope) {
-    return function (value) { return $rootScope.expenseCategories[value]; };
+	return function (value) {
+		return $rootScope.expenseCategories[value];
+	};
 }])
-.run(['$rootScope', function ($rootScope) {
-    $rootScope.expenseCategories = { "1": "Household", "2": "Gas", "3": "Entertainment", "4": "Durable", "5": "Vacation" };
+.directive('summaryPanel', function () {
+    return {
+        restrict: 'AE',
+        templateUrl: 'summary-panel.html',
+        scope: {
+            category: '=',
+            filter: '&onFilter',
+            filterAttr: '@onFilter',
+			active: '='
+        }
+    };
+})
+.directive('expenseGrid', function () {
+	return {
+		templateUrl: 'expense-grid.html',
+		scope: {
+			expenses: '=',
+			filter: '='
+		}
+	};
+})
+.run(['$rootScope', '$location', function ($rootScope, $location) {
+	$rootScope.expenseCategories = { "1": "Household", "2": "Gas", "3": "Entertainment", "4": "Durable", "5": "Vacation", "6": "TutorTime", "7": "Toll", "8": "Periodical" };
+	$rootScope.getMonthSum = function () {
+		return $location.path().substr(0, 9) === '/monthly/' ? $rootScope.monthSum : null;
+	}
 }])
 ;

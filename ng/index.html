@@ -41,14 +41,19 @@
             </li>
         </ul>
     </div>
-    <!-- /#sidebar-wrapper -->
+    <!-- /#side bar-wrapper -->
     <!-- Page Content -->
     <div id="page-content-wrapper">
         <div class="container-fluid">
-            <h1><a href="#menu-toggle" id="menu-toggle">How Expensive</a></h1>
+            <h1>
+				<a href="#menu-toggle" id="menu-toggle">
+					How Expensive
+					<span ng-if="getMonthSum()" ng-bind-template=" - {{ getMonthSum() | currency:'$':0 }}"></span>
+				</a>
+			</h1>
             <br />
 
-            <div ng-view></div>
+            <div ng-view class="view-div"></div>
         </div>
     </div>
     <!-- /#page-content-wrapper -->
@@ -60,7 +65,10 @@
 
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-route.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-animate.js"></script>
     <script src="checklist-model.js"></script>
+
+	<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
 
     <script src="app.js"></script>
     <script src="views/entry-view.js"></script>

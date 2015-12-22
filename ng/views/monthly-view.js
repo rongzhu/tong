@@ -8,14 +8,18 @@ angular.module('monthly-view', ['ngRoute'])
             controllerAs: 'monthly'
         });
     }])
-    .controller('monthlyController', ['$routeParams', '$http', '$scope', function ($routeParams, $http, $scope) {
+    .controller('monthlyController', ['$routeParams', '$http', '$scope', '$rootScope', function ($routeParams, $http, $scope, $rootScope) {
         var vm = this;
 
         $scope.updateCurrentMonth($routeParams.year, $routeParams.month - 1);
 
         $http.get('/monthly/' + $routeParams.year + '/' + $routeParams.month)
         .then(function (resp) {
-            vm.data = resp.data;
+        	vm.data = resp.data;
+
+        	$rootScope.monthSum = 0;
+        	resp.data.Categories.forEach(x => $rootScope.monthSum += x.Amount);
+
             vm.expenseFilter = {};
         });
     }]);

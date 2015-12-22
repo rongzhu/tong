@@ -198,6 +198,8 @@
     <Content Include="ng\app.css" />
     <Content Include="ng\app.js" />
     <Content Include="ng\checklist-model.js" />
+    <Content Include="ng\expense-grid.html" />
+    <Content Include="ng\summary-panel.html" />
     <Content Include="ng\views\edit-view.html" />
     <Content Include="ng\views\edit-view.js" />
     <Content Include="ng\views\entry-view.html" />

@@ -1,0 +1,20 @@
+﻿<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>Category</th>
+            <th>Card</th>
+        </tr>
+    </thead>
+    <tbody>
+		<tr ng-repeat="exp in expenses | filter: filter">
+			<td>{{ exp.TransactionDate | date: shortDate }}</td>
+			<td>{{ exp.Description }}</td>
+			<td>{{ exp.Amount | currency }}</td>
+			<td>{{ exp.Category | categoryName }}</td>
+			<td>{{ exp.PaymentMethod }}</td>
+		</tr>
+    </tbody>
+</table>

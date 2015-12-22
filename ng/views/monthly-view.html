@@ -1,40 +1,7 @@
-﻿<div class="row">
+﻿<div class="row monthly-summary">
     <div class="col-md-3 col-xs-6" ng-repeat="cat in monthly.data.Categories">
-        <div class="panel panel-primary">
-            <div class="panel-heading text-right">
-                <div class="huge">{{ cat.Amount | currency:'$':0 }}</div>
-                <div><i class="fa fa-comments fa-1x pull-left"></i> {{ cat.ID | categoryName }}</div>
-            </div>
-            <div class="panel-footer">
-                <a ng-click="monthly.expenseFilter = { Category: cat.ID }" style="cursor:pointer">
-                    <i>
-                        <span class="pull-left">View Details</span>
-                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                    </i>
-                    <div class="clearfix"></div>
-                </a>
-            </div>
-        </div>
+		<summary-panel category="cat" on-filter="monthly.expenseFilter = { Category: id }" active="monthly.expenseFilter.Category == cat.ID"></summary-panel>
     </div>
 </div>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Date</th>
-            <th>Description</th>
-            <th>Amount</th>
-            <th>Category</th>
-            <th>Card</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat="exp in monthly.data.Expenses | filter: monthly.expenseFilter">
-            <td>{{ exp.TransactionDate | date: shortDate }}</td>
-            <td>{{ exp.Description }}</td>
-            <td>{{ exp.Amount | currency }}</td>
-            <td>{{ exp.Category | categoryName }}</td>
-            <td>{{ exp.PaymentMethod }}</td>
-        </tr>
-    </tbody>
-</table>
+<expense-grid expenses="monthly.data.Expenses" filter="monthly.expenseFilter"></expense-grid>

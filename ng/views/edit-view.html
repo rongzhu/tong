@@ -8,10 +8,12 @@
                     <th>Amount</th>
                     <th>Category</th>
                     <th>Hint</th>
+					<th></th>
+					<th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="exp in state.parsedExpenses">
+                <tr ng-repeat="exp in state.parsedExpenses" ng-class="{ 'duplicate-expense-row': exp.Duplicate }">
                     <td><input class="form-control" type="date" ng-model="exp.TransactionDate" required /></td>
                     <td><input class="form-control" type="text" ng-model="exp.Description" required /></td>
                     <td><input class="form-control" type="number" step="0.01" ng-model="exp.Amount" required /></td>
@@ -19,6 +21,8 @@
                         <select class="form-control" ng-model="exp.Category" ng-options="id as name for (id, name) in expenseCategories" required></select>
                     </td>
                     <td><input class="form-control hint" type="text" ng-model="exp.Hint" ng-show="::!exp.Category" /></td>
+					<td class="delete-col" ng-click="state.parsedExpenses.splice(state.parsedExpenses.indexOf(exp), 1)"><i class="glyphicon glyphicon-remove"></i></td>
+					<td class="insert-col" ng-click="state.parsedExpenses.splice(state.parsedExpenses.indexOf(exp), 0, { TransactionDate: exp.TransactionDate })"><i class="glyphicon glyphicon-plus"></i></td>
                 </tr>
             </tbody>
         </table>

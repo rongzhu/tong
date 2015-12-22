@@ -36,35 +36,11 @@
         <div ng-if="search.data">
             <div class="row">
                 <div class="col-lg-3 col-md-4 col-sm-6" ng-repeat="cat in search.data.Categories">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading text-right">
-                            <div class="big">{{ cat.Amount | currency:'$':0 }}</div>
-                            <div><i class="fa fa-comments fa-1x pull-left"></i> {{ cat.ID | categoryName }}</div>
-                        </div>
-                    </div>
+                    <summary-panel category="cat"></summary-panel>
                 </div>
             </div>
 
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Description</th>
-                        <th>Amount</th>
-                        <th>Category</th>
-                        <th>Card</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="exp in search.data.Expenses">
-                        <td>{{ exp.TransactionDate | date: shortDate }}</td>
-                        <td>{{ exp.Description }}</td>
-                        <td>{{ exp.Amount | currency }}</td>
-                        <td>{{ exp.Category | categoryName }}</td>
-                        <td>{{ exp.PaymentMethod }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+			<expense-grid expenses="search.data.Expenses"></expense-grid>
+		</div>
     </div>
 </div>

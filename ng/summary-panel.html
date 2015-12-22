@@ -1,0 +1,21 @@
+﻿<div class="panel panel-primary">
+    <div class="panel-heading text-right">
+        <div class="big">{{ category.Amount | currency:'$':0 }}</div>
+        <div>
+			<span class="pull-left">
+				<i class="fa fa-calendar fa-1x "></i>
+				YTM: {{ category.YTM | currency:'$':0 }}
+			</span>
+			{{ category.ID | categoryName }}
+		</div>
+    </div>
+	<div class="panel-footer" ng-show="filterAttr" ng-style="{ 'background-color': active ? '#dfd' : '' }">
+		<a ng-click="active ? filter({}) : filter({ id: category.ID })" style="cursor:pointer">
+			<i>
+				<span class="pull-left">View Details</span>
+				<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+			</i>
+			<div class="clearfix"></div>
+		</a>
+	</div>
+</div>

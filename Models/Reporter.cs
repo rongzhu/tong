@@ -15,7 +15,10 @@ namespace tongbro.Models
             { "2", "Gas" },
             { "3", "Entertaining" },
             { "4", "Durable" },
-            { "5", "Vacation" }
+            { "5", "Vacation" },
+			{ "6", "TutorTime" },
+			{ "7", "Toll" },
+			{ "8", "Periodical" }
         };
 
 		public List<Tuple<string, DateTime>> GetPaymentMethodLastDates()

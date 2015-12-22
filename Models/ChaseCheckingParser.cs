@@ -46,8 +46,8 @@ namespace tongbro.Models
             CsvContext cc = new CsvContext();
 			var rows = cc.Read<ChaseCheckingItem>(content.ToReader(), new CsvFileDescription() { FirstLineHasColumnNames = false, EnforceCsvColumnAttribute = true });
             return (from r in rows
-					where r.Description.Contains("COSTCO WHSE") || r.Description.Contains("SO CAL EDISON CO") || r.Description.Contains("AMERICAN EXPRESS ACH PMT") ||
-						r.Description.Contains("THE GAS COMPANY") || r.Type == "Check"
+					where r.Description.Contains("COSTCO") || r.Description.Contains("SO CAL EDISON CO") || r.Description.Contains("SO CAL GAS") ||
+						r.Description.Contains("AMERICAN EXPRESS ACH PMT") || r.Description.Contains("THE GAS COMPANY") || r.Description.Contains("Auto Loan 3103") || r.Type == "Check"
                     select new Expense()
                     {
                         Amount = r.Amount,
