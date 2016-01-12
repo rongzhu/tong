@@ -72,17 +72,17 @@ namespace tongbro.Controllers
 			public DateTime Date;
 		}
 
-        [Route("expensedata/lastchargesdates")]
-        public object[] GetLastChargesDates()
-        {
-            using (var db = new DB_76984_hostedEntities())
-            {
-                return (from e in db.Expenses
-                        group e by e.PaymentMethod into g
-                        orderby g.Max(x => x.TransactionDate) descending
+		[Route("expensedata/lastchargesdates")]
+		public LastCharge[] GetLastChargesDates()
+		{
+			using (var db = new DB_76984_hostedEntities())
+			{
+				return (from e in db.Expenses
+						group e by e.PaymentMethod into g
+						orderby g.Max(x => x.TransactionDate) descending
 						select new LastCharge { Method = g.Key, Date = g.Max(x => x.TransactionDate) }).ToArray();
-            }
-        }
+			}
+		}
 
         private List<Hint> _hints = null;
 
@@ -98,10 +98,11 @@ namespace tongbro.Controllers
             foreach (var h in _hints)
             {
                 Regex regex = new Regex(@"\b" + h.Keyword + @"\b");
-                if (regex.IsMatch(desc)) return h.Category;
+                if (regex.IsMatch(desc))
+					return h.Category;
             }
 
-            return amount < 20 ? "1" : "";
+            return Math.Abs(amount) < 35 ? "1" : "";
         }
 
 		private IEnumerable<ExpenseEx> FilterDuplicates(IEnumerable<ExpenseEx> expenses)
@@ -256,13 +257,15 @@ namespace tongbro.Controllers
             }
         }
 
-		[Route("expensedata/parseposted")]
+		[Route("expensedata/parsetempposted")]
 		[HttpGet]
-		public object ParsePosted()
+		public object ParseTempPosted(string method)
 		{
-			string csv = (string)System.Web.HttpContext.Current.Application["PostedExpenses"] ?? "";
-			//System.Web.HttpContext.Current.Application["PostedExpenses"] = null;
-			return Parse(csv);
+			var client = new HttpClient();
+			string csv = client.GetStringAsync("https://www.mushroomnetworks.com/radio/show_csv.aspx?func=202").Result;
+			var exps = Parse(csv);
+			var startDate = GetLastChargesDates().Single(x => x.Method == method).Date.AddDays(-3);
+			return exps.Where(x => x.TransactionDate >= startDate && !x.Duplicate);
 		}
 
 		[Route("expensedata/postcsv")]

@@ -12,8 +12,10 @@ angular.module('data-entry', ['ngRoute'])
         var vm = this;
 
         if ($location.search() && $location.search().rtrv) {
+        	vm.expensesRaw = "Retrieving downloaded CSV...";
+
         	$http({
-        		url: '/expensedata/parseposted',
+        		url: '/expensedata/parsetempposted?method=' + $location.search().rtrv,
         		method: 'GET',
         		transformResponse: function (data) {
         			return JSON.parse(data, function (k, v) {
@@ -23,6 +25,8 @@ angular.module('data-entry', ['ngRoute'])
         	})
             .then(function (resp) {
             	$scope.state.parsedExpenses = resp.data;
+            	vm.expensesRaw = "";
+            	$location.search({});
             	$location.path('/entry/edit');
             });
         }
