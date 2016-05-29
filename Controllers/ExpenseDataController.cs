@@ -128,13 +128,28 @@ namespace tongbro.Controllers
 
 			if (parser == null) return null;
 
-			var expenses = parser.Parse(raw).Select(x => new ExpenseEx(x) { Category = PredictCategory(x.Description, x.Amount) }).ToList();
-			foreach (var exp in FilterDuplicates(expenses))
+			try
 			{
-				exp.Duplicate = true;
-			}
+				var expenses = parser.Parse(raw).Select(x => new ExpenseEx(x) { Category = PredictCategory(x.Description, x.Amount) }).ToList();
 
-			return expenses;
+				//if it's Chase Checking, only leave the ones after the last charge
+				if (parser.GetType().Name == "ChaseCheckingParser")
+				{
+					DateTime lastCheckingDate = GetLastChargesDates().Single(lc => lc.Method == "Chase Checking").Date;
+					expenses = expenses.Where(exp => exp.TransactionDate >= lastCheckingDate).ToList();
+				}
+
+				foreach (var exp in FilterDuplicates(expenses))
+				{
+					exp.Duplicate = true;
+				}
+
+				return expenses;
+			}
+			catch(LINQtoCSV.AggregatedException ex)
+			{
+				throw new Exception(string.Join("\r\n", ex.m_InnerExceptionsList.Select(e => e.Message).ToArray()));
+			}
 		}
 
         [Route("expensedata/parseraw")]

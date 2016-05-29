@@ -12,36 +12,42 @@ namespace tongbro.Models
 	public class ChaseCheckingParser : BaseParser
     {
 		private class ChaseCheckingItem
-        {
-            [CsvColumn(FieldIndex = 1)]
-            public DateTime TransactionDate { get; set; }
-            [CsvColumn(FieldIndex = 2)]
-            public string Type { get; set; }
-            [CsvColumn(FieldIndex = 3)]
-            public string Description { get; set; }
-            [CsvColumn(FieldIndex = 4)]
-            public decimal Amount { get; set; }
-            [CsvColumn(FieldIndex = 5)]
-            public string Padding1 { get; set; }
-            [CsvColumn(FieldIndex = 6)]
-            public string Padding2 { get; set; }
-        }
-
-		private class ChaseCheckingItemAutoPost
 		{
-			[CsvColumn(FieldIndex = 1)]
+			[CsvColumn(FieldIndex = 1, Name = "Details")]
 			public string Padding1 { get; set; }
-			[CsvColumn(FieldIndex = 2)]
+			[CsvColumn(FieldIndex = 2, Name = "Posting Date")]
 			public DateTime TransactionDate { get; set; }
-            [CsvColumn(FieldIndex = 3)]
-            public string Type { get; set; }
-			[CsvColumn(FieldIndex = 4)]
+			[CsvColumn(FieldIndex = 3)]
 			public string Description { get; set; }
+			[CsvColumn(FieldIndex = 4)]
+			public decimal Amount { get; set; }
 			[CsvColumn(FieldIndex = 5)]
-			public string Debit { get; set; }
-			[CsvColumn(FieldIndex = 6)]
-			public string Credit { get; set; }
+			public string Type { get; set; }
+			[CsvColumn(FieldIndex = 6, Name = "Balance")]
+			public string Padding2 { get; set; }
+			[CsvColumn(FieldIndex = 7, Name = "Check or Slip #")]
+			public string Padding3 { get; set; }
+			[CsvColumn(FieldIndex = 8)]
+			public string ExtraColumn { get; set; }
 		}
+
+		//private class ChaseCheckingItemAutoPost
+		//{
+		//	[CsvColumn(FieldIndex = 1)]
+		//	public string Padding1 { get; set; }
+		//	[CsvColumn(FieldIndex = 2)]
+		//	public DateTime TransactionDate { get; set; }
+		//	[CsvColumn(FieldIndex = 3)]
+		//	public string Description { get; set; }
+		//	[CsvColumn(FieldIndex = 4)]
+		//	public decimal Amount { get; set; }
+		//	[CsvColumn(FieldIndex = 5)]
+		//	public string Type { get; set; }
+		//	[CsvColumn(FieldIndex = 6)]
+		//	public string Padding2 { get; set; }
+		//	[CsvColumn(FieldIndex = 7)]
+		//	public string Padding3 { get; set; }
+		//}
 		
 		public override string PaymentMethod
         {
@@ -51,45 +57,42 @@ namespace tongbro.Models
         public override bool CanParse(string content)
         {
 			string firstLine = GetFirstLine(content);
-			if (firstLine.StartsWith("RONGCHCK"))
-				return true;
-			else
-			{
-				string[] parts = firstLine.Split('\t');
-				return (parts.Length >= 2 && new string[] { "ACH Debit", "Check", "ACH Credit", "Deposit", "Account Transfer", "Loan Payment" }.Contains(parts[1].Trim()));
-			}
+			return firstLine.StartsWith("RONGCHCK") || firstLine == "Details,Posting Date,Description,Amount,Type,Balance,Check or Slip #";
         }
 
         public override List<Expense> Parse(string content)
         {
-			List<Expense> exps;
+			List<Expense> exps = null;
 			if (content.StartsWith("RONGCHCK"))
 			{
 				//e.g.
 				//RONGCHCK,  12/30/2015  ,COSTCO GAS #0690 LAGUNA NIGUE CA     058441  12/30,$25.44  ,  
-				CsvContext cc = new CsvContext();
-				var rows = cc.Read<ChaseCheckingItemAutoPost>(content.ToReader(), new CsvFileDescription() { FirstLineHasColumnNames = false, EnforceCsvColumnAttribute = true }).ToList();
-				exps = (from r in rows
-						select new Expense()
-						{
-							Amount = decimal.Parse((r.Credit.Trim().HasContent() ? r.Credit : r.Debit).Trim().TrimStart('$')),
-							Description = (r.Type.Trim() == "Check" ? "[CHECK] " : "") + r.Description,
-							TransactionDate = r.TransactionDate,
-							PaymentMethod = PaymentMethod
-						}).ToList();
+				//CsvContext cc = new CsvContext();
+				//var rows = cc.Read<ChaseCheckingItemAutoPost>(content.ToReader(), new CsvFileDescription() { FirstLineHasColumnNames = false, EnforceCsvColumnAttribute = true }).ToList();
+				//exps = (from r in rows
+				//		select new Expense()
+				//		{
+				//			Amount = -r.Amount,
+				//			Description = "[" + r.Type + "]" + r.Description,
+				//			TransactionDate = r.TransactionDate,
+				//			PaymentMethod = PaymentMethod
+				//		}).ToList();
 			}
 			else
 			{
 				//e.g.
-				//07/21/2014   	ACH Debit	SO CAL EDISON CO BILL PAYMT 349794602 WEB ID: 4951240335	$34.85  	  	$10,780.36  
-				content = content.Replace(",", "").Replace('\t', ',');			//remove ',' in $10,780.36
+				//DEBIT,05/24/2016,"SO CAL GAS       PAID SCGC  1800098836      WEB ID: 1992052494",-24.43,ACH_DEBIT,11102.73,,
+
+				//Chase bug: the column name row has 1 column less than data's
+				content = content.Replace("Details,Posting Date,Description,Amount,Type,Balance,Check or Slip #", "Details,Posting Date,Description,Amount,Type,Balance,Check or Slip #,ExtraColumn");
+
 				CsvContext cc = new CsvContext();
-				var rows = cc.Read<ChaseCheckingItem>(content.ToReader(), new CsvFileDescription() { FirstLineHasColumnNames = false, EnforceCsvColumnAttribute = true });
+				var rows = cc.Read<ChaseCheckingItem>(content.ToReader(), new CsvFileDescription() { FirstLineHasColumnNames = true, EnforceCsvColumnAttribute = true });
 				exps = (from r in rows
 						select new Expense()
 						{
-							Amount = r.Amount,
-							Description = (r.Type == "Check" ? "[CHECK] " : "") + r.Description,
+							Amount = -r.Amount,
+							Description = "[" + r.Type + "] " + r.Description,
 							TransactionDate = r.TransactionDate,
 							PaymentMethod = PaymentMethod
 						}).ToList();
@@ -97,7 +100,7 @@ namespace tongbro.Models
 
 			return exps.Where(r => r.Description.Contains("COSTCO") || r.Description.Contains("SO CAL EDISON CO") || r.Description.Contains("SO CAL GAS") ||
 						r.Description.Contains("AMERICAN EXPRESS ACH PMT") || r.Description.Contains("THE GAS COMPANY") ||
-						r.Description.Contains("Auto Loan 3103") || r.Description.StartsWith("[CHECK]")).ToList();
+						r.Description.Contains("Auto Loan 3103") || r.Description.StartsWith("[CHECK_PAID]")).ToList();
         }
 
     }

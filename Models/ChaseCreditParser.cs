@@ -53,6 +53,9 @@ namespace tongbro.Models
 
 		public override List<Expense> Parse(string content)
 		{
+			//fix Chase csv encoding error for ',' in "99 RANCH MARKET, #"
+			content = content.Replace("99 RANCH MARKET, #", "99 RANCH MARKET #");
+
 			List<Expense> exps;
 			if (content.StartsWith("RONGCHCC"))
 			{
@@ -73,7 +76,7 @@ namespace tongbro.Models
 			{
 				CsvContext cc = new CsvContext();
 				var rows = cc.Read<ChaseCreditItem>(content.ToReader());
-				return (from r in rows
+				exps = (from r in rows
 						select new Expense()
 						{
 							Amount = -r.Amount,
