@@ -99,8 +99,10 @@ namespace tongbro.Models
 			}
 
 			return exps.Where(r => r.Description.Contains("COSTCO") || r.Description.Contains("SO CAL EDISON CO") || r.Description.Contains("SO CAL GAS") ||
-						r.Description.Contains("AMERICAN EXPRESS ACH PMT") || r.Description.Contains("THE GAS COMPANY") ||
-						r.Description.Contains("Auto Loan 3103") || r.Description.StartsWith("[CHECK_PAID]")).ToList();
+						r.Description.Contains("AMERICAN EXPRESS ACH PMT") || r.Description.Contains("THE GAS COMPANY") || r.Description.Contains("SPECTRUM MONTESO") ||
+						r.Description.Contains("Auto Loan 3103") || r.Description.StartsWith("[CHECK_PAID]") || r.Description.Contains("MNWD-WTR BILL") ||
+						r.Description.Contains("CITI AUTOPAY")
+						).ToList();
         }
 
     }
