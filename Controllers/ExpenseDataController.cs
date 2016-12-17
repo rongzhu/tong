@@ -97,7 +97,7 @@ namespace tongbro.Controllers
             desc = desc.ToLower();
             foreach (var h in _hints)
             {
-                Regex regex = new Regex(@"\b" + h.Keyword + @"\b");
+                Regex regex = new Regex(@"\b" + h.Keyword + @"\b", RegexOptions.IgnoreCase);
                 if (regex.IsMatch(desc))
 					return h.Category;
             }
@@ -144,6 +144,8 @@ namespace tongbro.Controllers
 					exp.Duplicate = true;
 				}
 
+				expenses.ForEach(exp => exp.Description = Util.LimitLen(exp.Description, 100));
+
 				return expenses;
 			}
 			catch(LINQtoCSV.AggregatedException ex)
@@ -171,7 +173,10 @@ namespace tongbro.Controllers
         {
 			//Transaction submitted from <input type=date> where the timezone is GMT. Convert back to local.
 			foreach (var exp in expenses)
+			{
 				exp.TransactionDate = exp.TransactionDate.ToLocalTime();
+				exp.Description = Util.LimitLen(exp.Description, 100);
+			}
 
 			var dups = FilterDuplicates(expenses);
 
@@ -226,7 +231,14 @@ namespace tongbro.Controllers
                     }
                 }
 
-                db.SaveChanges();
+				try
+				{
+					db.SaveChanges();
+				}
+				catch (Exception ex)
+				{
+					int i = 0;
+				}
 
                 return new SaveResponse { badHints = badHints.ToArray(), duplicateExpenses = dups.ToArray() };
             }
