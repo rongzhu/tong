@@ -23,6 +23,10 @@ namespace tongbro.Models
             public string Description { get; set; }
             [CsvColumn(FieldIndex = 5)]
             public decimal Amount { get; set; }
+			[CsvColumn(FieldIndex = 6)]
+			public string Category { get; set; }
+			[CsvColumn(FieldIndex = 7)]
+			public string Memo { get; set; }
 		}
 
 		private class ChaseCreditItemAutoPost
@@ -48,7 +52,7 @@ namespace tongbro.Models
 			if (firstLine.StartsWith("RONGCHCC"))
 				return true;
 			else
-				return firstLine == "Type,Trans Date,Post Date,Description,Amount";
+				return firstLine == "Type,Trans Date,Post Date,Description,Amount,Category,Memo";
 		}
 
 		public override List<Expense> Parse(string content)

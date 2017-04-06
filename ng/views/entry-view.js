@@ -48,6 +48,10 @@ angular.module('data-entry', ['ngRoute'])
                 }
             })
             .then(function (resp) {
+            	if (!resp.data) {
+            		vm.expensesRaw = 'Probably no parser found.';
+            		return;
+            	}
                 $scope.state.parsedExpenses = resp.data;
                 $location.path('/entry/edit');
             });
