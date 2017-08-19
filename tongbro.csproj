@@ -147,16 +147,16 @@
     <Compile Include="Models\ChaseCreditParser.cs" />
     <Compile Include="Models\CitiCreditParser.cs" />
     <Compile Include="Models\Expense.cs">
-      <DependentUpon>Showcase.tt</DependentUpon>
+      <DependentUpon>DB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Hint.cs">
-      <DependentUpon>Showcase.tt</DependentUpon>
+      <DependentUpon>DB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Reporter.cs" />
-    <Compile Include="Models\Showcase.Context.cs" />
-    <Compile Include="Models\Showcase.cs" />
-    <Compile Include="Models\Showcase.Designer.cs">
-      <DependentUpon>Showcase.cs</DependentUpon>
+    <Compile Include="Models\DB.Context1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DB.Context.tt</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\NonLocalRequireHttpsAttribute.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -164,8 +164,17 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\MonthlyModel.cs" />
     <Compile Include="Models\ProductCategory.cs" />
+    <Compile Include="Models\DB1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DB.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -179,20 +188,20 @@
     <Content Include="Content\style.css" />
     <Content Include="Global.asax" />
     <Content Include="Content\site.css" />
-    <Content Include="Models\Showcase.Context.tt">
+    <Content Include="Models\DB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Showcase.Context1.cs</LastGenOutput>
+      <LastGenOutput>DB.Context1.cs</LastGenOutput>
     </Content>
-    <EntityDeploy Include="Models\Showcase.edmx">
+    <EntityDeploy Include="Models\DB.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Showcase1.Designer.cs</LastGenOutput>
+      <LastGenOutput>DB1.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\Showcase.edmx.diagram">
-      <DependentUpon>Showcase.edmx</DependentUpon>
+    <Content Include="Models\DB.edmx.diagram">
+      <DependentUpon>DB.edmx</DependentUpon>
     </Content>
-    <Content Include="Models\Showcase.tt">
+    <Content Include="Models\DB.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Showcase1.cs</LastGenOutput>
+      <LastGenOutput>DB1.cs</LastGenOutput>
     </Content>
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="ng\app.css" />

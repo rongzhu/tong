@@ -289,7 +289,7 @@ namespace tongbro.Controllers
 		public object ParseTempPosted(string method)
 		{
 			var client = new HttpClient();
-			string csv = client.GetStringAsync("https://www.mushroomnetworks.com/radio/show_csv.aspx?func=202").Result;
+			string csv = client.GetStringAsync(ConfigurationManager.AppSettings["DataUrl"]).Result;
 			var exps = Parse(csv);
 			var startDate = GetLastChargesDates().Single(x => x.Method == method).Date.AddDays(-3);
 			return exps.Where(x => x.TransactionDate >= startDate && !x.Duplicate);
