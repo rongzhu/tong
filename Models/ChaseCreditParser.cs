@@ -13,15 +13,17 @@ namespace tongbro.Models
     {
         private class ChaseCreditItem
         {
-            [CsvColumn(FieldIndex = 1)]
-            public string Type { get; set; }
-            [CsvColumn(FieldIndex = 2, Name = "Trans Date")]
+			[CsvColumn(FieldIndex = 1, Name = "Transaction Date")]
             public DateTime TransactionDate { get; set; }
-            [CsvColumn(FieldIndex = 3, Name = "Post Date")]
+            [CsvColumn(FieldIndex = 2, Name = "Post Date")]
             public DateTime PostDate { get; set; }
-            [CsvColumn(FieldIndex = 4)]
+            [CsvColumn(FieldIndex = 3)]
             public string Description { get; set; }
-            [CsvColumn(FieldIndex = 5)]
+			[CsvColumn(FieldIndex = 4)]
+			public string Category { get; set; }
+			[CsvColumn(FieldIndex = 5)]
+            public string Type { get; set; }
+            [CsvColumn(FieldIndex = 6)]
             public decimal Amount { get; set; }
 		}
 
@@ -48,7 +50,8 @@ namespace tongbro.Models
 			if (firstLine.StartsWith("RONGCHCC"))
 				return true;
 			else
-				return firstLine == "Type,Trans Date,Post Date,Description,Amount";
+				return firstLine == "Transaction Date,Post Date,Description,Category,Type,Amount";
+
 		}
 
 		public override List<Expense> Parse(string content)
