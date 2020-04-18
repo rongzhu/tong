@@ -98,11 +98,11 @@ namespace tongbro.Models
 						}).ToList();
 			}
 
-			return exps.Where(r => r.Description.Contains("COSTCO") || r.Description.Contains("SO CAL EDISON CO") || r.Description.Contains("SO CAL GAS") ||
-						r.Description.Contains("AMERICAN EXPRESS ACH PMT") || r.Description.Contains("THE GAS COMPANY") || r.Description.Contains("SPECTRUM MONTESO") ||
-						r.Description.Contains("Auto Loan 3103") || r.Description.StartsWith("[CHECK_PAID]") || r.Description.Contains("MNWD-WTR BILL") ||
-						r.Description.Contains("CITI AUTOPAY") || r.Description.StartsWith("[DEBIT_CARD]") || r.Description.StartsWith("KW MUSIC STUDIOS")
-						).ToList();
+			var keywords = ("COSTCO,SO CAL EDISON,SO CAL GAS,AMERICAN EXPRESS ACH PMT,THE GAS COMPANY,SPECTRUM MONTESO,CHECK_PAID,MNWD-WTR BILL,CITI AUTOPAY,DEBIT_CARD," +
+				"KW MUSIC STUDIOS,QuickPay with Zelle")
+				.Split(',');
+
+			return exps.Where(r => keywords.Any(kw => r.Description.Contains(kw))).ToList();
         }
 
     }
