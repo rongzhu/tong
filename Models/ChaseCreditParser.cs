@@ -25,6 +25,8 @@ namespace tongbro.Models
             public string Type { get; set; }
             [CsvColumn(FieldIndex = 6)]
             public decimal Amount { get; set; }
+			[CsvColumn(FieldIndex = 7)]
+			public decimal Memo { get; set; }
 		}
 
 		private class ChaseCreditItemAutoPost
@@ -50,7 +52,7 @@ namespace tongbro.Models
 			if (firstLine.StartsWith("RONGCHCC"))
 				return true;
 			else
-				return firstLine == "Transaction Date,Post Date,Description,Category,Type,Amount";
+				return firstLine == "Transaction Date,Post Date,Description,Category,Type,Amount,Memo";
 
 		}
 
