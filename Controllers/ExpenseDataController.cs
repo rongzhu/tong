@@ -98,7 +98,8 @@ namespace tongbro.Controllers
             desc = desc.ToLower();
             foreach (var h in _hints)
             {
-                Regex regex = new Regex(@"\b" + h.Keyword + @"\b", RegexOptions.IgnoreCase);
+                // Regex regex = new Regex(@"\b" + h.Keyword + @"\b", RegexOptions.IgnoreCase);
+                Regex regex = new Regex(h.Keyword, RegexOptions.IgnoreCase);
                 if (regex.IsMatch(desc))
 					return h.Category;
             }
@@ -202,27 +203,25 @@ namespace tongbro.Controllers
 
                 foreach (var e in expenses.Where(x => x.Hint.HasContent()))
                 {
-                    //chars that need escaping for use in Regex
-                    string escs = @".^$+?()[{\|";
-                    StringBuilder sb = new StringBuilder();
-                    foreach (char c in e.Hint.Trim())
-                    {
-                        if (escs.Contains(c)) sb.Append(@"\");
-                        sb.Append(c);
-                    }
-
-                    string hint = sb.ToString();
+                    string hint = Regex.Escape(e.Hint);
                     if (!existingHints.Contains(hint) && !newHints.Contains(hint))
                     {
-                        var re = new Regex(@"\b" + hint + @"\b");
+                        // var re = new Regex(@"\b" + hint + @"\b");
+                        var re = new Regex(hint);
 
                         //check for conflict
-                        var firstConflict = db.Expenses.Where(x => x.Description.Contains(hint) && x.Category != e.Category).AsEnumerable()
-                                .FirstOrDefault(x => re.IsMatch(x.Description));
+                        //var firstConflict = db.Expenses.Where(x => x.Description.Contains(hint) && x.Category != e.Category).AsEnumerable()
+                        //        .FirstOrDefault(x => re.IsMatch(x.Description));
 
-                        if (firstConflict != null)
+                        //if (firstConflict != null)
+                        //{
+                        //    badHints.Add(string.Format("\"{0}\" matches \"{1}\" but is of category {2}", firstConflict.Description, hint, firstConflict.Category));
+                        //}
+
+                        string existingPrediction = PredictCategory(e.Description, e.Amount);
+                        if (existingPrediction.HasContent() && existingPrediction != e.Category)
                         {
-                            badHints.Add(string.Format("\"{0}\" matches \"{1}\" but is of category {2}", firstConflict.Description, hint, firstConflict.Category));
+                            badHints.Add(string.Format($"Existing prediction is {existingPrediction} but new prediction is {e.Category}"));
                         }
                         else
                         {
