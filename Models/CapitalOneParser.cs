@@ -13,21 +13,19 @@ namespace tongbro.Models
     {
         private class CapitalOneItem
         {
-			[CsvColumn(FieldIndex = 1, Name = "Stage")]
-            public string Padding1 { get; set; }
-			[CsvColumn(FieldIndex = 2, Name = "Transaction Date")]
+			[CsvColumn(FieldIndex = 1, Name = "Transaction Date")]
             public DateTime TransactionDate { get; set; }
-			[CsvColumn(FieldIndex = 3, Name = "Posted Date")]
+			[CsvColumn(FieldIndex = 2, Name = "Posted Date")]
             public string Padding2 { get; set; }
-			[CsvColumn(FieldIndex = 4, Name = "Card No.")]
+			[CsvColumn(FieldIndex = 3, Name = "Card No.")]
             public string Padding3 { get; set; }
-            [CsvColumn(FieldIndex = 5)]
+            [CsvColumn(FieldIndex = 4)]
             public string Description { get; set; }
-            [CsvColumn(FieldIndex = 6)]
+            [CsvColumn(FieldIndex = 5)]
             public string Category { get; set; }
-            [CsvColumn(FieldIndex = 7)]
+            [CsvColumn(FieldIndex = 6)]
             public decimal? Debit { get; set; }
-            [CsvColumn(FieldIndex = 8)]
+            [CsvColumn(FieldIndex = 7)]
             public decimal? Credit { get; set; }
         }
 
@@ -38,7 +36,7 @@ namespace tongbro.Models
 
         public override bool CanParse(string content)
         {
-			return GetFirstLine(content) == "Stage, Transaction Date, Posted Date, Card No., Description, Category, Debit, Credit";
+			return GetFirstLine(content) == "Transaction Date,Posted Date,Card No.,Description,Category,Debit,Credit";
         }
 
         public override List<Expense> Parse(string content)
