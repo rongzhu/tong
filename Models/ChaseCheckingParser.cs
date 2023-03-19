@@ -6,6 +6,7 @@ using LINQtoCSV;
 using System.Text;
 using System.IO;
 using tongbro.Models;
+using System.Collections;
 
 namespace tongbro.Models
 {
@@ -100,9 +101,9 @@ namespace tongbro.Models
 
 			var keywords = ("COSTCO,SO CAL EDISON,SO CAL GAS,AMERICAN EXPRESS ACH PMT,THE GAS COMPANY,SPECTRUM MONTESO,CHECK_PAID,MNWD-WTR BILL,CITI AUTOPAY,DEBIT_CARD," +
 				"KW MUSIC STUDIOS,QuickPay with Zelle,CHASE CREDIT CRD AUTOPAY,Zelle payment")
-				.Split(',');
+				.ToLower().Split(',');
 
-			return exps.Where(r => keywords.Any(kw => r.Description.Contains(kw))).ToList();
+			return exps.Where(r => keywords.Any(kw => r.Description.ToLower().Contains(kw))).ToList();
         }
 
     }
