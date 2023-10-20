@@ -13,19 +13,21 @@ namespace tongbro.Models
     {
         private class ChaseCreditItem
         {
-			[CsvColumn(FieldIndex = 1, Name = "Transaction Date")]
+            [CsvColumn(FieldIndex = 1, Name = "Card")]
+            public string Padding1 { get; set; }
+            [CsvColumn(FieldIndex = 2, Name = "Transaction Date")]
             public DateTime TransactionDate { get; set; }
-            [CsvColumn(FieldIndex = 2, Name = "Post Date")]
+            [CsvColumn(FieldIndex = 3, Name = "Post Date")]
             public DateTime PostDate { get; set; }
-            [CsvColumn(FieldIndex = 3)]
+            [CsvColumn(FieldIndex = 4)]
             public string Description { get; set; }
-			[CsvColumn(FieldIndex = 4)]
-			public string Category { get; set; }
 			[CsvColumn(FieldIndex = 5)]
+			public string Category { get; set; }
+			[CsvColumn(FieldIndex = 6)]
             public string Type { get; set; }
-            [CsvColumn(FieldIndex = 6)]
+            [CsvColumn(FieldIndex = 7)]
             public decimal Amount { get; set; }
-			[CsvColumn(FieldIndex = 7)]
+			[CsvColumn(FieldIndex = 8)]
 			public decimal Memo { get; set; }
 		}
 
@@ -52,11 +54,10 @@ namespace tongbro.Models
 			if (firstLine.StartsWith("RONGCHCC"))
 				return true;
 			else
-				return firstLine == "Transaction Date,Post Date,Description,Category,Type,Amount,Memo";
+                return firstLine == "Card,Transaction Date,Post Date,Description,Category,Type,Amount,Memo";
+        }
 
-		}
-
-		public override List<Expense> Parse(string content)
+        public override List<Expense> Parse(string content)
 		{
 			//fix Chase csv encoding error for ',' in "99 RANCH MARKET, #"
 			content = content.Replace("99 RANCH MARKET, #", "99 RANCH MARKET #");
