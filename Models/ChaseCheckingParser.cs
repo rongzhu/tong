@@ -100,7 +100,7 @@ namespace tongbro.Models
 			}
 
 			var keywords = ("COSTCO,SO CAL EDISON,SO CAL GAS,AMERICAN EXPRESS ACH PMT,THE GAS COMPANY,SPECTRUM MONTESO,CHECK_PAID,MNWD-WTR BILL,CITI AUTOPAY,DEBIT_CARD," +
-				"KW MUSIC STUDIOS,QuickPay with Zelle,CHASE CREDIT CRD AUTOPAY,Zelle payment")
+                "KW MUSIC STUDIOS,QuickPay with Zelle,CHASE CREDIT CRD AUTOPAY,Zelle payment,VENMO PAYMENT")
 				.ToLower().Split(',');
 
 			return exps.Where(r => keywords.Any(kw => r.Description.ToLower().Contains(kw))).ToList();
