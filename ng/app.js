@@ -75,7 +75,7 @@ angular.module('expApp', [
 .run(['$rootScope', '$location', function ($rootScope, $location) {
 	$rootScope.expenseCategories = {
 		"1": "Household", "2": "Gas", "3": "Entertainment", "4": "Durable", "5": "Vacation", "6": "TutorTime", "7": "Toll", "8": "Periodical",
-		"9": "Project 1", "10": "Project 2"
+        "9": "Project 1", "A": "Project 2", "B": "Project 3"
 	};
 	$rootScope.getMonthSum = function () {
 		return $location.path().substr(0, 9) === '/monthly/' ? $rootScope.monthSum : null;

@@ -231,14 +231,7 @@ namespace tongbro.Controllers
                     }
                 }
 
-				try
-				{
-					db.SaveChanges();
-				}
-				catch (Exception ex)
-				{
-					int i = 0;
-				}
+        		db.SaveChanges();
 
                 return new SaveResponse { badHints = badHints.ToArray(), duplicateExpenses = dups.ToArray() };
             }
